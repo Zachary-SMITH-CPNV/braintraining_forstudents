@@ -6,9 +6,9 @@ import tkinter as tk
 import random
 from math import sqrt
 import time
-import database
+from database import *
 import datetime
-
+import mysql.connector
 
 # Main window
 # graphical variables
@@ -21,10 +21,10 @@ mycircle= None #objet utilisé pour le cercle rouge
 
 
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
-exercise="GEO01"
-nbtrials=0 #number of total trials
-nbsuccess=0 #number of successfull trials
+pseudo = "" #provisory pseudo for user
+exercise = "GEO01"
+nbtrials = 0 #number of total trials
+nbsuccess = 0 #number of successfull trials
 
 
 # on canvas click, check if succeded or failed
@@ -88,8 +88,20 @@ def next_point(event):
 
 
 def save_game(event):
-    # TODO
-    print("dans save")
+    global pseudo, nbtrials, nbsuccess
+    pseudo = entry_pseudo.get()
+    date_hour = time.strftime('%Y-%m-%d %H-%M-%S')
+    duration = time.time() - start_date.timestamp()
+    nbtrials_results = nbtrials
+    nbsuccess_results = nbsuccess
+    minigame_id = 1
+
+    print(pseudo)
+    print(nbsuccess_results)
+    print(nbtrials_results)
+
+    insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
+
 
 
 def display_timer():
@@ -102,7 +114,7 @@ def display_timer():
 
 def open_window_geo_01(window):
     # window = tk.Tk()
-    global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date
+    global window_geo01, hex_color, lbl_title, lbl_duration, lbl_result, lbl_target, canvas, start_date, entry_pseudo
     window_geo01 = tk.Toplevel(window)
 
     window_geo01.title("Exercice de géométrie")

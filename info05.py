@@ -12,7 +12,7 @@ import time
 import database
 import datetime
 from tkinter.messagebox import *
-
+from database import *
 # Main window
 # graphical variables
 l = 850 # canvas length
@@ -21,7 +21,7 @@ xmed=250 #middle of 2 color rectangles
 
 
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
+pseudo = "" #provisory pseudo for user
 exercise="INFO05"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
@@ -190,9 +190,7 @@ def sl_v(event):
     display()
 
 
-def save_game(event):
-    print("dans save")
-    #TODO
+
 
 
 def display_timer():
@@ -204,7 +202,7 @@ def display_timer():
 
 
 def open_window_info_05(window):
-    global window_info05, lbl_duration, lbl_result, hex_color, start_date, slider_r, slider_g, slider_b, slider_v, entry_response, canvas
+    global window_info05, lbl_duration, lbl_result, hex_color, start_date, slider_r, slider_g, slider_b, slider_v, entry_response, canvas, entry_pseudo
     window_info05 = tk.Toplevel(window)
     window_info05.title("La couleur perdue")
     window_info05.geometry("1100x900")
@@ -272,5 +270,15 @@ def open_window_info_05(window):
     slider_v.bind("<ButtonRelease-1>", sl_v)
     btn_finish.bind("<Button-1>", save_game)
 
+def save_game(event):
+    global pseudo, nbtrials, nbsuccess
+    pseudo = entry_pseudo.get()
+    date_hour = time.strftime('%Y-%m-%d %H-%M-%S')
+    duration = time.time() - start_date.timestamp()
+    nbtrials_results = nbtrials
+    nbsuccess_results = nbsuccess
+    minigame_id = 3
+
+    insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
     # main loop
     window_info05.mainloop()

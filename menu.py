@@ -9,6 +9,9 @@ import geo01
 import info02
 import info05
 
+
+
+
 # exercises array
 a_exercise=["geo01", "info02", "info05"]
 albl_image=[None, None, None] # label (with images) array
@@ -26,7 +29,6 @@ def exercise(event,exer):
 def display_result(event):
     # TODO
     print("display_result")
-
 
 # Main window
 window = tk.Tk()

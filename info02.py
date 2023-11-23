@@ -9,9 +9,9 @@ import time
 import database
 import datetime
 from tkinter.messagebox import *
-
+from database import *
 #important data (to save)
-pseudo="Gaston" #provisory pseudo for user
+pseudo = "" #provisory pseudo for user
 exercise="INFO02"
 nbtrials=0 #number of total trials
 nbsuccess=0 #number of successfull trials
@@ -46,10 +46,6 @@ def next(event):
     entry_n2.delete(0, 'end')
 
 
-def save_game(event):
-    print("dans save")
-    # TODO
-
 
 def test(event):
     global n2, nbsuccess, nbtrials
@@ -77,7 +73,7 @@ def display_timer():
 
 
 def open_window_info_02(window):
-    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date
+    global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
     window_info02 = tk.Toplevel(window)
 
     #window_info02 = tk.Tk()
@@ -127,6 +123,17 @@ def open_window_info_02(window):
     entry_n2.bind("<Return>", test)
     btn_next.bind("<Button-1>", next)
     btn_finish.bind("<Button-1>", save_game)
+
+def save_game(event):
+    global pseudo, nbtrials, nbsuccess
+    pseudo = entry_pseudo.get()
+    date_hour = time.strftime('%Y-%m-%d %H-%M-%S')
+    duration = time.time() - start_date.timestamp()
+    nbtrials_results = nbtrials
+    nbsuccess_results = nbsuccess
+    minigame_id = 2
+
+    insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
 
     # Main loop
     window_info02.mainloop()
