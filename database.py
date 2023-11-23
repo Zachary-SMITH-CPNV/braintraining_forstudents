@@ -9,13 +9,21 @@ def open_dbconnection():
     db_connection = mysql.connector.connect(host='127.0.0.1', user='Zach', password='Pa$$w0rd', port='3306',
                                             database='projet_dbpy', buffered=True, autocommit=True)
 
-
 def close_dbconnection():
     """
     close connection to the database
     """
     db_connection.close()
 
+def data_results():
+    infos = []
+    cursor = db_connection.cursor()
+    query = "Select pseudo, date_et_heure, temp, nb_ok, nb_trials, MiniGame_id from results"
+    cursor.execute(query)
+    name = cursor.fetchall()
+    infos.append(name)
+    cursor.close()
+    return infos
 
 def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
     try:
@@ -26,25 +34,18 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
             password='Pa$$w0rd',
             database='projet_dbpy'
         )
-
         # Créez un objet curseur pour exécuter des requêtes SQL
         cursor = connection.cursor()
-
         # Définissez votre requête SQL d'insertion
         insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_ok, nb_trials, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
-
         # Exécutez la requête en utilisant les valeurs que vous avez passées à la fonction
         cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials,minigame_id))
-
         # Validez la transaction
         connection.commit()
-
         # Fermez le curseur et la connexion
         cursor.close()
         connection.close()
-
         print("Résultats insérés avec succès dans la base de données.")
-
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
             print("Accès refusé : Veuillez vérifier vos informations d'identification.")
@@ -52,3 +53,10 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
             print("Base de données inexistante : Veuillez vérifier le nom de votre base de données.")
         else:
             print("Erreur MySQL inattendue :", err)
+
+def get_exercice_name(id):
+    cursor = db_connection.cursor()
+    query = "Select MiniGame_name from minigame where id=%s"
+    cursor.execute(query, (id, ))
+    result = cursor.fetchone()
+    return result
