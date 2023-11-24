@@ -47,7 +47,7 @@ for ex in range(len(a_exercise)):
     albl_image[ex] = tk.Label(window, image=a_image[ex])  # Put image on label
     albl_image[ex].grid(row=2 + 2 * (ex // 3), column=ex % 3, padx=40, pady=10)  # 3 labels per row
     albl_image[ex].bind("<Button-1>", lambda event, ex=ex: exercise(event=None, exer=a_exercise[ex]))  # Link to others .py
-    print(a_exercise[ex])
+
 
 # Buttons, display results & quit
 btn_display = tk.Button(window, text="Display results", font=("Arial", 15))
@@ -58,12 +58,17 @@ btn_finish = tk.Button(window, text="Quitter", font=("Arial", 15))
 btn_finish.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
 btn_finish.bind("<Button-1>", quit)
 
+
 # Call display_results
 def display_result(event):
     # Create a new window for displaying results
     result_window = tk.Toplevel(window)
     result_window.title("Affichage braintraining")
     result_window.geometry("1100x900")
+
+    # Color definition
+    result_window.configure(bg="light blue")
+    result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
 
     # Frames
     filter_frame = tk.Frame(result_window, bg="white", padx=10)
@@ -85,15 +90,11 @@ def display_result(event):
     lbl_nbtotal.grid(row=0, column=3, padx=(0, 10))
     lbl_purcenttot.grid(row=0, column=4, padx=(0, 10))
 
-    # Color definition
-    result_window.configure(bg="light blue")
-    result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
-
     # Title of the results display
     lbl_title = tk.Label(result_window, text="TOTAL: RESULTS", font=("Arial", 15))
     lbl_title.grid(row=0, column=1, ipady=5, padx=40, pady=40)
 
-    # Labels for filters TODO
+    # Labels for filters TODO Apply filter function
     lbl_pseudo = tk.Label(filter_frame, text="Pseudo:", bg="white", padx=10, font=("Arial", 10))
     lbl_ex_name = tk.Label(filter_frame, text="Nom Exercice:", bg="white", padx=10, font=("Arial", 10))
     lbl_start_date = tk.Label(filter_frame, text="Date début:", bg="white", padx=10, font=("Arial", 10))
@@ -114,8 +115,8 @@ def display_result(event):
     entry_start_date = tk.Entry(filter_frame)
     entry_enddate = tk.Entry(filter_frame)
 
-    # Buttons TODO ajouter l'application des filtres
-    button_result = tk.Button(filter_frame, text="Afficher Avec Filtres", font=("Arial", 10))
+    # Buttons TODO ajouter l'application des filtre des resultats
+    button_result = tk.Button(filter_frame, text="Voir résultats", font=("Arial", 11))
 
     # placement of filters
     filter_frame.grid(row=1, columnspan=3)
@@ -152,23 +153,23 @@ def display_result(event):
         for j in range(len(student)):
             for data in range(len(student[j])):
                 if data != 2 and data != 3:
-                    # Display student data or exercise name with a border
-                    e = tk.Label(results_frame, width=10, text=student[j][data], relief="solid", borderwidth=1)
+                    # Display results data and insert in frame
+                    e = tk.Label(results_frame, width=15, text=student[j][data], relief="solid", borderwidth=1)
                 elif data == 2:
-                    e = tk.Label(results_frame, width=10, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
+                    e = tk.Label(results_frame, width=15, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
                 elif data == 3:
-                    e = tk.Label(results_frame, width=10, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
+                    e = tk.Label(results_frame, width=15, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
                 e.grid(row=j + 1, column=i + data)
             try:
-                # Calculate and display the percentage with a border
-                e = tk.Label(results_frame, width=10, text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 2)}%", relief="solid", borderwidth=1)
+                # Calculate and display the percentage
+                e = tk.Label(results_frame, width=15, text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 0)}%", relief="solid", borderwidth=1)
             except ZeroDivisionError:
-                e = tk.Label(results_frame, width=10, text="0%", relief="solid", borderwidth=1)
+                e = tk.Label(results_frame, width=15, text="0%", relief="solid", borderwidth=1)
             e.grid(row=j + 1, column=i + 6)
         i += 1
 
     close_dbconnection()
 
-    
+
 # Main loop
 window.mainloop()

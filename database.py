@@ -27,22 +27,21 @@ def data_results():
 
 def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
     try:
-        # Connectez-vous à votre base de données avec les bons paramètres
+        # Connection to database
         connection = mysql.connector.connect(
             host='127.0.0.1',
             user='Zach',
             password='Pa$$w0rd',
             database='projet_dbpy'
         )
-        # Créez un objet curseur pour exécuter des requêtes SQL
         cursor = connection.cursor()
-        # Définissez votre requête SQL d'insertion
+        # create the query
         insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_trials, nb_ok, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
-        # Exécutez la requête en utilisant les valeurs que vous avez passées à la fonction
+        # Execute the query to insert results
         cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials,minigame_id))
-        # Validez la transaction
+        # commit the results
         connection.commit()
-        # Fermez le curseur et la connexion
+        # Close cursor and connection
         cursor.close()
         connection.close()
         print("Résultats insérés avec succès dans la base de données.")
