@@ -65,101 +65,98 @@ def display_result(event):
     result_window.title("Affichage braintraining")
     result_window.geometry("1100x900")
 
-    # Color definition
-    rgb_color = (139, 201, 194)
-    hex_color = '#%02x%02x%02x' % rgb_color  # Translation to hexa
-    result_window.configure(bg=hex_color)
-    result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
-
-    # Title of the results display
-    lbl_title_results = tk.Label(result_window, text="TRAINING: AFFICHAGE", font=("Arial", 15))
-    lbl_title_results.grid(row=0, column=1, ipady=5, padx=40, pady=40)
-
     # Frames
     filter_frame = tk.Frame(result_window, bg="white", padx=10)
     results_frame = tk.Frame(result_window, bg="white", padx=10)
     total_frame = tk.Frame(result_window, bg="white", padx=10)
 
-    # Filters Label
-    lbl_user = tk.Label(filter_frame, text="Pseudo:", bg="white", padx=10, font=("Arial", 11))
-    lbl_ex = tk.Label(filter_frame, text="Exercice:", bg="white", padx=10, font=("Arial", 11))
-    lbl_startdate = tk.Label(filter_frame, text="Date début:", bg="white", padx=10, font=("Arial", 11))
-    lbl_enddate = tk.Label(filter_frame, text="Date fin:", bg="white", padx=10, font=("Arial", 11))
+    # Totals labels TODO
+    lbl_trials = tk.Label(total_frame, text="NbLignes", bg="white", padx=20, font=("Arial", 10))
+    lbl_time = tk.Label(total_frame, text="Temps trials", bg="white", padx=20, font=("Arial", 10))
+    lbl_nbok = tk.Label(total_frame, text="Nb OK", bg="white", padx=20, font=("Arial", 10))
+    lbl_nbtotal = tk.Label(total_frame, text="Nb Total", bg="white", padx=20, font=("Arial", 10))
+    lbl_purcenttot = tk.Label(total_frame, text="% Total", bg="white", padx=20, font=("Arial", 10))
 
-    # Results labels
-    lbl_col_student = tk.Label(results_frame, text="Élève", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_date_hour = tk.Label(results_frame, text="Date heure", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_time = tk.Label(results_frame, text="Temps", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_ex = tk.Label(results_frame, text="Exercice", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_nbok = tk.Label(results_frame, text="nb OK", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_nbtot = tk.Label(results_frame, text="nb Total", bg="white", padx=20, font=("Arial", 11))
-    lbl_col_reussi = tk.Label(results_frame, text="% réussi", bg="white", padx=20, font=("Arial", 11))
-
-    # Totals labels
-    lbl_tot = tk.Label(total_frame, text="NbLignes", bg="white", padx=20, font=("Arial", 11))
-    lbl_time = tk.Label(total_frame, text="Temps total", bg="white", padx=20, font=("Arial", 11))
-    lbl_nbok = tk.Label(total_frame, text="Nb OK", bg="white", padx=20, font=("Arial", 11))
-    lbl_nbtotal = tk.Label(total_frame, text="Nb Total", bg="white", padx=20, font=("Arial", 11))
-    lbl_purcenttot = tk.Label(total_frame, text="% Total", bg="white", padx=20, font=("Arial", 11))
-
-    # Filters Entry
-    entry_user = tk.Entry(filter_frame)
-    entry_ex = tk.Entry(filter_frame)
-    entry_startdate = tk.Entry(filter_frame)
-    entry_enddate = tk.Entry(filter_frame)
-
-    # Buttons
-    button_result = tk.Button(filter_frame, text="Voir résultats", font=("Arial", 11))
-
-    # Place the elements
-    # FILTER
-    filter_frame.grid(row=1, columnspan=3)
-
-    lbl_user.grid(row=0, column=0, padx=(0, 10))
-    entry_user.grid(row=0, column=1)
-
-    lbl_ex.grid(row=0, column=2, padx=(0, 10))
-    entry_ex.grid(row=0, column=3)
-
-    lbl_startdate.grid(row=0, column=4, padx=(0, 10))
-    entry_startdate.grid(row=0, column=5)
-
-    lbl_enddate.grid(row=0, column=6, padx=(0, 10))
-    entry_enddate.grid(row=0, column=7)
-
-    button_result.grid(row=1, column=0, pady=5)
-
-    # RESULTS
-    results_frame.grid(row=2, pady=10, columnspan=3)
-
-    lbl_col_student.grid(row=0, column=0, padx=(0, 10))
-    lbl_col_date_hour.grid(row=0, column=1, padx=(0, 10))
-    lbl_col_time.grid(row=0, column=2, padx=(0, 10))
-    lbl_col_ex.grid(row=0, column=3, padx=(0, 10))
-    lbl_col_nbok.grid(row=0, column=4, padx=(0, 10))
-    lbl_col_nbtot.grid(row=0, column=5, padx=(0, 10))
-    lbl_col_reussi.grid(row=0, column=6, padx=(0, 10))
-
-    # TOTAL
+    # Frame total
     total_frame.grid(row=3, pady=10, columnspan=3)
-
-    lbl_tot.grid(row=0, column=0, padx=(0, 10))
+    lbl_trials.grid(row=0, column=0, padx=(0, 10))
     lbl_time.grid(row=0, column=1, padx=(0, 10))
     lbl_nbok.grid(row=0, column=2, padx=(0, 10))
     lbl_nbtotal.grid(row=0, column=3, padx=(0, 10))
     lbl_purcenttot.grid(row=0, column=4, padx=(0, 10))
 
-    # Insert the values taken from MySQL into Tkinter
+    # Color definition
+    result_window.configure(bg="light blue")
+    result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Title of the results display
+    lbl_title = tk.Label(result_window, text="TOTAL: RESULTS", font=("Arial", 15))
+    lbl_title.grid(row=0, column=1, ipady=5, padx=40, pady=40)
+
+    # Labels for filters TODO
+    lbl_pseudo = tk.Label(filter_frame, text="Pseudo:", bg="white", padx=10, font=("Arial", 10))
+    lbl_ex_name = tk.Label(filter_frame, text="Nom Exercice:", bg="white", padx=10, font=("Arial", 10))
+    lbl_start_date = tk.Label(filter_frame, text="Date début:", bg="white", padx=10, font=("Arial", 10))
+    lbl_end_date = tk.Label(filter_frame, text="Date fin:", bg="white", padx=10, font=("Arial", 10))
+
+    # Results labels in columns
+    lbl_column_pseudo = tk.Label(results_frame, text="pseudo/Élève", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_date_hour = tk.Label(results_frame, text="Date et heure", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_time = tk.Label(results_frame, text="Temps", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_ex = tk.Label(results_frame, text="Exercice", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_nbok = tk.Label(results_frame, text="nb ok", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_nbtrials = tk.Label(results_frame, text="nb essai", bg="white", padx=20, font=("Arial", 10))
+    lbl_column_succes = tk.Label(results_frame, text="% réussi", bg="white", padx=20, font=("Arial", 10))
+
+    # Filters Entry
+    entry_user = tk.Entry(filter_frame)
+    entry_ex = tk.Entry(filter_frame)
+    entry_start_date = tk.Entry(filter_frame)
+    entry_enddate = tk.Entry(filter_frame)
+
+    # Buttons TODO ajouter l'application des filtres
+    button_result = tk.Button(filter_frame, text="Afficher Avec Filtres", font=("Arial", 10))
+
+    # placement of filters
+    filter_frame.grid(row=1, columnspan=3)
+    lbl_pseudo.grid(row=0, column=0, padx=(0, 10))
+
+    entry_user.grid(row=0, column=1)
+    lbl_ex_name.grid(row=0, column=2, padx=(0, 10))
+
+    entry_ex.grid(row=0, column=3)
+    lbl_start_date.grid(row=0, column=4, padx=(0, 10))
+
+    entry_start_date.grid(row=0, column=5)
+    lbl_end_date.grid(row=0, column=6, padx=(0, 10))
+
+    entry_enddate.grid(row=0, column=7)
+    button_result.grid(row=1, column=0, pady=5)
+
+    # Placement of results columns
+    results_frame.grid(row=2, pady=10, columnspan=3)
+
+    lbl_column_pseudo.grid(row=0, column=0, padx=(0, 10))
+    lbl_column_date_hour.grid(row=0, column=1, padx=(0, 10))
+    lbl_column_time.grid(row=0, column=2, padx=(0, 10))
+    lbl_column_ex.grid(row=0, column=3, padx=(0, 10))
+    lbl_column_nbok.grid(row=0, column=4, padx=(0, 10))
+    lbl_column_nbtrials.grid(row=0, column=5, padx=(0, 10))
+    lbl_column_succes.grid(row=0, column=6, padx=(0, 10))
+
+    # Results from Heidi sql to insert in results
     open_dbconnection()
     name = data_results()
     i = 0
     for student in name:
         for j in range(len(student)):
             for data in range(len(student[j])):
-                if data != 3:
+                if data != 2 and data != 3:
                     # Display student data or exercise name with a border
                     e = tk.Label(results_frame, width=10, text=student[j][data], relief="solid", borderwidth=1)
-                else:
+                elif data == 2:
+                    e = tk.Label(results_frame, width=10, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
+                elif data == 3:
                     e = tk.Label(results_frame, width=10, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
                 e.grid(row=j + 1, column=i + data)
             try:
@@ -172,5 +169,6 @@ def display_result(event):
 
     close_dbconnection()
 
+    
 # Main loop
 window.mainloop()

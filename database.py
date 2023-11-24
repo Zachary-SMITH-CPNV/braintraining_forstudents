@@ -18,7 +18,7 @@ def close_dbconnection():
 def data_results():
     infos = []
     cursor = db_connection.cursor()
-    query = "Select pseudo, date_et_heure, temp, nb_ok, nb_trials, MiniGame_id from results"
+    query = "Select pseudo, date_et_heure, temp, MiniGame_id, nb_ok, nb_trials, MiniGame_id from results"
     cursor.execute(query)
     name = cursor.fetchall()
     infos.append(name)
@@ -37,7 +37,7 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
         # Créez un objet curseur pour exécuter des requêtes SQL
         cursor = connection.cursor()
         # Définissez votre requête SQL d'insertion
-        insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_ok, nb_trials, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
+        insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_trials, nb_ok, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
         # Exécutez la requête en utilisant les valeurs que vous avez passées à la fonction
         cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials,minigame_id))
         # Validez la transaction

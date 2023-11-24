@@ -277,8 +277,8 @@ def save_game(event):
     duration = time.time() - start_date.timestamp()
     nbtrials_results = nbtrials
     nbsuccess_results = nbsuccess
-    minigame_id = 3
-
+    minigame_id = 1
     insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
+
     # main loop
     window_info05.mainloop()

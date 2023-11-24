@@ -10,7 +10,6 @@ from database import *
 import datetime
 import mysql.connector
 
-
 # Main window
 # graphical variables
 l = 1000 # canvas length
@@ -96,10 +95,6 @@ def save_game(event):
     nbtrials_results = nbtrials
     nbsuccess_results = nbsuccess
     minigame_id = 1
-
-    print(pseudo)
-    print(nbsuccess_results)
-    print(nbtrials_results)
 
     insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
 
