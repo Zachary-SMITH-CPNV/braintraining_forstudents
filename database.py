@@ -1,7 +1,6 @@
 import mysql.connector
 from geo01 import *
 from mysql.connector import errorcode
-print("judah")
 def open_dbconnection():
     """
     open connection to the database
@@ -36,6 +35,27 @@ def data_results(pseudo="", exercise=""):
     infos.append(name)
     cursor.close()
     return infos
+
+def total_data_results(pseudo="", exercise=""):
+    open_dbconnection()
+    cursor = db_connection.cursor()
+    query = "Select count(pseudo), sum(temp), sum(nb_ok), sum(nb_trials) from results"
+    if pseudo != "" and exercise != "":
+        query += " WHERE pseudo=%s and MiniGame_id=%s"
+        cursor.execute(query, (pseudo, get_exercice_id(exercise)[0]))
+    elif pseudo != "":
+        query += " WHERE pseudo=%s"
+        cursor.execute(query, (pseudo,))
+    elif exercise != "":
+        query += " WHERE MiniGame_id=%s"
+        cursor.execute(query, (get_exercice_id(exercise)[0],))
+    else:
+        cursor.execute(query)
+    results = cursor.fetchall()[0]
+    data = (results[0], int(results[1]), int(results[2]), int(results[3]))
+    cursor.close()
+    return data
+
 
 def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
     try:

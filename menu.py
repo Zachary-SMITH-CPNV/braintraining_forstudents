@@ -3,7 +3,6 @@
 # JCY oct 23
 # PRO DB PY
 #############################
-print("judah")
 import tkinter as tk
 
 
@@ -78,6 +77,7 @@ def display_result(event):
     info_results_frame = tk.Frame(result_window, bg="white", padx=10)
     results_frame = tk.Frame(result_window, bg="white", padx=10)
     total_frame = tk.Frame(result_window, bg="white", padx=10)
+    res_total_frame = tk.Frame(result_window, bg="white", padx=10)
 
     # Totals labels TODO
     lbl_trials = tk.Label(total_frame, text="NbLignes", bg="white", padx=20, font=("Arial", 10))
@@ -88,6 +88,7 @@ def display_result(event):
 
     # Frame total
     total_frame.grid(row=4, pady=10, columnspan=3)
+    res_total_frame.grid(row=7, pady=10, columnspan=3)
     lbl_trials.grid(row=0, column=0, padx=(0, 10))
     lbl_time.grid(row=0, column=1, padx=(0, 10))
     lbl_nbok.grid(row=0, column=2, padx=(0, 10))
@@ -121,7 +122,8 @@ def display_result(event):
 
     # Buttons TODO ajouter l'application des filtre des resultats
     button_result = tk.Button(filter_frame, text="Voir résultats", font=("Arial", 11),
-                              command=lambda: create_table(results_frame, (entry_user.get(), entry_ex.get())))
+                              command=lambda: create_table(results_frame, (entry_user.get(), entry_ex.get()),
+                                                           res_total_frame))
 
     # placement of filters
     filter_frame.grid(row=1, columnspan=3)
@@ -151,34 +153,44 @@ def display_result(event):
     lbl_column_nbtrials.grid(row=0, column=5, padx=(0, 10))
     lbl_column_succes.grid(row=0, column=6, padx=(0, 10))
 
-    create_table(results_frame, ("", ""))
+    create_table(results_frame, ("", ""), res_total_frame)
 
-def create_table(frame, data):
+def create_table(res_frame, variables, tot_frame):
     # Results from Heidi sql to insert in results
-    for widget in frame.winfo_children():
+    for widget in res_frame.winfo_children():
         widget.destroy()
     open_dbconnection()
-    name = data_results(data[0], data[1])
+    dataset = data_results(variables[0], variables[1])
     i = 0
-    for student in name:
+    for student in dataset:
         for j in range(len(student)):
             for data in range(len(student[j])):
                 if data != 2 and data != 3:
                     # Display results data and insert in frame
-                    e = tk.Label(frame, width=15, text=student[j][data], relief="solid", borderwidth=1)
+                    e = tk.Label(res_frame, width=15, text=student[j][data], relief="solid", borderwidth=1)
                 elif data == 2:
-                    e = tk.Label(frame, width=15, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
+                    e = tk.Label(res_frame, width=15, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
                 elif data == 3:
-                    e = tk.Label(frame, width=15, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
+                    e = tk.Label(res_frame, width=15, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
                 e.grid(row=j + 1, column=i + data)
             try:
                 # Calculate and display the percentage
-                e = tk.Label(frame, width=15, text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 0)}%", relief="solid", borderwidth=1)
+                e = tk.Label(res_frame, width=15, text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 0)}%", relief="solid", borderwidth=1)
             except ZeroDivisionError:
-                e = tk.Label(frame, width=15, text="0%", relief="solid", borderwidth=1)
+                e = tk.Label(res_frame, width=15, text="0%", relief="solid", borderwidth=1)
             e.grid(row=j + 1, column=i + 6)
         i += 1
-
+    dataset = total_data_results(variables[0], variables[1])
+    for info in range(len(dataset)):
+        e = tk.Label(tot_frame, width=15, text=dataset[info], relief="solid", borderwidth=1)
+        e.grid(row=0, column=info)
+    try:
+        # Calculate and display the percentage
+        e = tk.Label(tot_frame, width=15, text=f"{round(float(dataset[2]) * 100 / float(dataset[3]), 0)}%",
+                     relief="solid", borderwidth=1)
+    except ZeroDivisionError:
+        e = tk.Label(tot_frame, width=15, text="0%", relief="solid", borderwidth=1)
+    e.grid(row=0, column=4)
     close_dbconnection()
 
 

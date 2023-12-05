@@ -13,7 +13,6 @@ import database
 import datetime
 from tkinter.messagebox import *
 from database import *
-print("judah")
 # Main window
 # graphical variables
 l = 850 # canvas length
