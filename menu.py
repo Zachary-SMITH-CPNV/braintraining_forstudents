@@ -1,7 +1,8 @@
 #############################
 # Training (Menu)
-# JCY oct 23
-# PRO DB PY
+# Zachary Smith
+# PROJET DBPY
+# Dernière modif 05.12.2023
 #############################
 import tkinter as tk
 

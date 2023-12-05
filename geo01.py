@@ -1,6 +1,9 @@
-# Training (GEO01)
-# JCY oct 23
-# PRO DB PY
+#############################
+# Minigame GEO1
+# Zachary Smith
+# PROJET DBPY
+# Dernière modif 05.12.2023
+#############################
 import tkinter as tk
 import random
 from math import sqrt

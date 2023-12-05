@@ -1,6 +1,9 @@
-# Training (INFO02)
-# JCY oct 23
-# PRO DB PY
+#############################
+# Minigame INFO2
+# Zachary Smith
+# PROJET DBPY
+# Dernière modif 05.12.2023
+#############################
 import tkinter as tk
 import random
 from math import pow

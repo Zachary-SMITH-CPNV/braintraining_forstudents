@@ -1,6 +1,8 @@
 import mysql.connector
 from geo01 import *
 from mysql.connector import errorcode
+
+
 def open_dbconnection():
     """
     open connection to the database
@@ -9,11 +11,13 @@ def open_dbconnection():
     db_connection = mysql.connector.connect(host='127.0.0.1', user='Zach', password='Pa$$w0rd', port='3306',
                                             database='projet_dbpy', buffered=True, autocommit=True)
 
+
 def close_dbconnection():
     """
     close connection to the database
     """
     db_connection.close()
+
 
 def data_results(pseudo="", exercise=""):
     infos = []
@@ -98,3 +102,8 @@ def get_exercice_id(name):
     cursor.execute(query, (name, ))
     result = cursor.fetchone()
     return result
+
+
+def delete_result():
+    cursor = db_connection.cursor()
+    query = "DELETE "

@@ -1,6 +1,9 @@
-# Training (INFO05)
-# JCY oct 23
-# PRO DB PY
+#############################
+# Minigame INFO5
+# Zachary Smith
+# PROJET DBPY
+# Dernière modif 05.12.2023
+#############################
 import math
 import tkinter as tk
 from tkinter.messagebox import showinfo          # Les alertes
