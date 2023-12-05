@@ -1,6 +1,7 @@
 import mysql.connector
 from geo01 import *
 from mysql.connector import errorcode
+
 def open_dbconnection():
     """
     open connection to the database
@@ -15,11 +16,22 @@ def close_dbconnection():
     """
     db_connection.close()
 
-def data_results():
+def data_results(pseudo="", exercise=""):
     infos = []
+    open_dbconnection()
     cursor = db_connection.cursor()
-    query = "Select pseudo, date_et_heure, temp, MiniGame_id, nb_ok, nb_trials, MiniGame_id from results"
-    cursor.execute(query)
+    query = "Select pseudo, date_et_heure, temp, MiniGame_id, nb_ok, nb_trials from results"
+    if pseudo != "" and exercise != "":
+        query += " WHERE pseudo=%s and MiniGame_id=%s"
+        cursor.execute(query, (pseudo, get_exercice_id(exercise)[0]))
+    elif pseudo != "":
+        query += " WHERE pseudo=%s"
+        cursor.execute(query, (pseudo,))
+    elif exercise != "":
+        query += " WHERE MiniGame_id=%s"
+        cursor.execute(query, (get_exercice_id(exercise)[0],))
+    else:
+        cursor.execute(query)
     name = cursor.fetchall()
     infos.append(name)
     cursor.close()
@@ -57,5 +69,12 @@ def get_exercice_name(id):
     cursor = db_connection.cursor()
     query = "Select MiniGame_name from minigame where id=%s"
     cursor.execute(query, (id, ))
+    result = cursor.fetchone()
+    return result
+
+def get_exercice_id(name):
+    cursor = db_connection.cursor()
+    query = "Select id from minigame where MiniGame_name=%s"
+    cursor.execute(query, (name, ))
     result = cursor.fetchone()
     return result

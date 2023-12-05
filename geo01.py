@@ -10,6 +10,7 @@ from database import *
 import datetime
 import mysql.connector
 
+
 # Main window
 # graphical variables
 l = 1000 # canvas length
