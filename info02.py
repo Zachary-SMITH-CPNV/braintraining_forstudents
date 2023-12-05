@@ -13,11 +13,11 @@ import datetime
 from tkinter.messagebox import *
 from database import *
 
-#important data (to save)
-pseudo = "" #provisory pseudo for user
+# important data (to save)
+pseudo = "" # provisory pseudo for user
 exercise="INFO02"
-nbtrials=0 #number of total trials
-nbsuccess=0 #number of successfull trials
+nbtrials=0 # number of total trials
+nbsuccess=0 # number of successfull trials
 
 # Liaison entre le canvas et le code
 unite = ["B", "kB", "MB", "GB", "TB"]
@@ -49,7 +49,6 @@ def next(event):
     entry_n2.delete(0, 'end')
 
 
-
 def test(event):
     global n2, nbsuccess, nbtrials
     # Fonction pour tester si la valeur est juste
@@ -79,7 +78,7 @@ def open_window_info_02(window):
     global window_info02, lbl_duration, lbl_result, entry_n2, label_u2, label_n1, hex_color, start_date, entry_pseudo
     window_info02 = tk.Toplevel(window)
 
-    #window_info02 = tk.Tk()
+    # window_info02 = tk.Tk()
     window_info02.title("Conversion d'unités")
     window_info02.geometry("1100x900")
     window_info02.grid_columnconfigure((0,1,2), minsize=150, weight=1)
@@ -126,6 +125,7 @@ def open_window_info_02(window):
     entry_n2.bind("<Return>", test)
     btn_next.bind("<Button-1>", next)
     btn_finish.bind("<Button-1>", save_game)
+
 
 def save_game(event):
     global pseudo, nbtrials, nbsuccess

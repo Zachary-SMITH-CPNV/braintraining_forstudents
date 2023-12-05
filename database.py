@@ -1,3 +1,10 @@
+#############################
+# Database
+# Zachary Smith
+# PROJET DBPY
+# Dernière modif 05.12.2023
+#############################
+
 import mysql.connector
 from geo01 import *
 from mysql.connector import errorcode
@@ -39,6 +46,7 @@ def data_results(pseudo="", exercise=""):
     infos.append(name)
     cursor.close()
     return infos
+
 
 def total_data_results(pseudo="", exercise=""):
     open_dbconnection()
@@ -89,12 +97,14 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
         else:
             print("Erreur MySQL inattendue :", err)
 
+
 def get_exercice_name(id):
     cursor = db_connection.cursor()
     query = "Select MiniGame_name from minigame where id=%s"
     cursor.execute(query, (id, ))
     result = cursor.fetchone()
     return result
+
 
 def get_exercice_id(name):
     cursor = db_connection.cursor()

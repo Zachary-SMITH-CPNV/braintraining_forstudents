@@ -19,11 +19,10 @@ l = 1000 # canvas length
 h = 500 # canvas height
 target_x = 10 # x & y to find
 target_y = 10
-scale = 47.5 #100 pixels for x=1
-mycircle= None #objet utilisé pour le cercle rouge
+scale = 47.5 # 100 pixels for x=1
+mycircle= None # objet utilisé pour le cercle rouge
 
-
-#important data (to save)
+# important data (to save)
 pseudo = "" #provisory pseudo for user
 exercise = "GEO01"
 nbtrials = 0 #number of total trials
@@ -100,7 +99,6 @@ def save_game(event):
     minigame_id = 1
 
     insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
-
 
 
 def display_timer():

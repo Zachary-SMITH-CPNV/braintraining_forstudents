@@ -22,6 +22,7 @@ a_title = [None, None, None]  # Array of title (e.g., GEO01)
 
 dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_info_02, "info05": info05.open_window_info_05}
 
+
 # Call other windows (exercises)
 def exercise(event, exer):
     dict_games[exer](window)
@@ -155,6 +156,7 @@ def display_result(event):
     lbl_column_succes.grid(row=0, column=6, padx=(0, 10))
 
     create_table(results_frame, ("", ""), res_total_frame)
+
 
 def create_table(res_frame, variables, tot_frame):
     # Results from Heidi sql to insert in results
