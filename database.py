@@ -1,7 +1,7 @@
 import mysql.connector
 from geo01 import *
 from mysql.connector import errorcode
-
+print("judah")
 def open_dbconnection():
     """
     open connection to the database
