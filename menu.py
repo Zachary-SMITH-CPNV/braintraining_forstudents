@@ -1,8 +1,7 @@
 #############################
 # Training (Menu)
-# Zachary Smith
-# PROJET DBPY
-# Dernière modification 05.12.2023
+# JCY oct 23
+# PRO DB PY
 #############################
 import tkinter as tk
 
@@ -21,7 +20,6 @@ a_image = [None, None, None]  # Images array
 a_title = [None, None, None]  # Array of title (e.g., GEO01)
 
 dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_info_02, "info05": info05.open_window_info_05}
-
 
 # Call other windows (exercises)
 def exercise(event, exer):

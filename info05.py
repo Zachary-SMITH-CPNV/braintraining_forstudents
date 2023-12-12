@@ -270,16 +270,26 @@ def open_window_info_05(window):
     slider_v.bind("<ButtonRelease-1>", sl_v)
     btn_finish.bind("<Button-1>", save_game)
 
-
 def save_game(event):
     global pseudo, nbtrials, nbsuccess
+
+    # Get the pseudo from the entry widget
     pseudo = entry_pseudo.get()
+
+    # Check if the pseudo is empty
+    if not pseudo.strip():
+        # Display an error message if the pseudo is empty
+        tk.messagebox.showerror("Error", "Please enter a non-empty pseudo.")
+        return  # Return without saving the game
+
+    # Continue with the rest of the function if the pseudo is not empty
     date_hour = time.strftime('%Y-%m-%d %H-%M-%S')
     duration = time.time() - start_date.timestamp()
     nbtrials_results = nbtrials
     nbsuccess_results = nbsuccess
     minigame_id = 3
-    insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
+
+    database.insert_results(pseudo, date_hour, duration, nbtrials, nbsuccess, minigame_id)
 
     # main loop
     window_info05.mainloop()

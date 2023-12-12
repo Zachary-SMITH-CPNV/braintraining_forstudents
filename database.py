@@ -17,6 +17,7 @@ def open_dbconnection():
     global db_connection
     db_connection = mysql.connector.connect(host='127.0.0.1', user='Zach', password='Pa$$w0rd', port='3306',
                                             database='projet_dbpy', buffered=True, autocommit=True)
+    return db_connection
 
 
 def close_dbconnection():
@@ -70,24 +71,19 @@ def total_data_results(pseudo="", exercise=""):
 
 
 def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
+    open_dbconnection()
     try:
-        # Connection to database
-        connection = mysql.connector.connect(
-            host='127.0.0.1',
-            user='Zach',
-            password='Pa$$w0rd',
-            database='projet_dbpy'
-        )
-        cursor = connection.cursor()
+
+        cursor = db_connection.cursor()
         # create the query
         insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_trials, nb_ok, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
         # Execute the query to insert results
         cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials,minigame_id))
         # commit the results
-        connection.commit()
+        db_connection.commit()
         # Close cursor and connection
         cursor.close()
-        connection.close()
+        db_connection.close()
         print("Résultats insérés avec succès dans la base de données.")
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
@@ -96,7 +92,7 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
             print("Base de données inexistante : Veuillez vérifier le nom de votre base de données.")
         else:
             print("Erreur MySQL inattendue :", err)
-
+    close_dbconnection()
 
 def get_exercice_name(id):
     cursor = db_connection.cursor()
@@ -116,4 +112,4 @@ def get_exercice_id(name):
 
 def delete_result():
     cursor = db_connection.cursor()
-    query = "DELETE "
+    query = "DELETE FROM "
