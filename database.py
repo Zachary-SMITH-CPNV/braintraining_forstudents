@@ -5,7 +5,7 @@
 # Dernière modif 05.12.2023
 #############################
 
-import mysql.connector
+import mysql.connector, datetime
 from geo01 import *
 from mysql.connector import errorcode
 
@@ -31,7 +31,7 @@ def data_results(pseudo="", exercise=""):
     infos = []
     open_dbconnection()
     cursor = db_connection.cursor()
-    query = "Select pseudo, date_et_heure, temp, MiniGame_id, nb_ok, nb_trials from results"
+    query = "Select pseudo, date_et_heure, temp, MiniGame_id, nb_ok, nb_trials, id from results"
     if pseudo != "" and exercise != "":
         query += " WHERE pseudo=%s and MiniGame_id=%s"
         cursor.execute(query, (pseudo, get_exercice_id(exercise)[0]))
@@ -73,12 +73,11 @@ def total_data_results(pseudo="", exercise=""):
 def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
     open_dbconnection()
     try:
-
         cursor = db_connection.cursor()
         # create the query
         insert_query = "INSERT INTO results (pseudo, date_et_heure, temp, nb_trials, nb_ok, minigame_id) VALUES (%s, %s, %s, %s, %s, %s)"
         # Execute the query to insert results
-        cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials,minigame_id))
+        cursor.execute(insert_query, (pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id))
         # commit the results
         db_connection.commit()
         # Close cursor and connection
@@ -93,6 +92,30 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
         else:
             print("Erreur MySQL inattendue :", err)
     close_dbconnection()
+
+def modify_result(dataset, id):
+    open_dbconnection()
+    try:
+        exercise_id = get_exercice_id(dataset[3])[0]
+        date_data = dataset[1].split(" ")
+        date_date_data = date_data[0].split("-")
+        date_time_data = date_data[1].split(":")
+        final_date = datetime.datetime(int(date_date_data[0]), int(date_date_data[1]), int(date_date_data[2]),
+                                       int(date_time_data[0]), int(date_time_data[1]), int(date_time_data[2]))
+        final_time = dataset[2]
+        okay_tries = int(dataset[4])
+        total_tries = int(dataset[5])
+    except:
+        return
+    query = "UPDATE results SET pseudo = %s, date_et_heure = %s, temp = %s, nb_trials = %s, nb_ok = %s, minigame_id = %s WHERE id=%s"
+    cursor = db_connection.cursor()
+    cursor.execute(query, (dataset[0], final_date, final_time, total_tries, okay_tries, exercise_id, id))
+
+def destroy_result(id):
+    open_dbconnection()
+    query = "DELETE FROM results WHERE id=%s"
+    cursor = db_connection.cursor()
+    cursor.execute(query, (id,))
 
 def get_exercice_name(id):
     cursor = db_connection.cursor()
@@ -112,4 +135,7 @@ def get_exercice_id(name):
 
 def delete_result():
     cursor = db_connection.cursor()
-    query = "DELETE FROM "
+    query = "DELETE FROM results WHERE ID LIKE """
+    cursor.execute(query)
+    result = cursor.fetchone
+    return result

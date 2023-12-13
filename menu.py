@@ -3,8 +3,8 @@
 # JCY oct 23
 # PRO DB PY
 #############################
+import tkinter
 import tkinter as tk
-
 
 import database
 import geo01
@@ -19,11 +19,14 @@ albl_image = [None, None, None]  # Label (with images) array
 a_image = [None, None, None]  # Images array
 a_title = [None, None, None]  # Array of title (e.g., GEO01)
 
-dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_info_02, "info05": info05.open_window_info_05}
+dict_games = {"geo01": geo01.open_window_geo_01, "info02": info02.open_window_info_02,
+              "info05": info05.open_window_info_05}
+
 
 # Call other windows (exercises)
 def exercise(event, exer):
     dict_games[exer](window)
+
 
 # Main window
 window = tk.Tk()
@@ -48,8 +51,8 @@ for ex in range(len(a_exercise)):
     a_image[ex] = tk.PhotoImage(file="img/" + a_exercise[ex] + ".gif")  # Image name
     albl_image[ex] = tk.Label(window, image=a_image[ex])  # Put image on label
     albl_image[ex].grid(row=2 + 2 * (ex // 3), column=ex % 3, padx=40, pady=10)  # 3 labels per row
-    albl_image[ex].bind("<Button-1>", lambda event, ex=ex: exercise(event=None, exer=a_exercise[ex]))  # Link to others .py
-
+    albl_image[ex].bind("<Button-1>",
+                        lambda event, ex=ex: exercise(event=None, exer=a_exercise[ex]))  # Link to others .py
 
 # Buttons, display results & quit
 btn_display = tk.Button(window, text="Display results", font=("Arial", 15))
@@ -123,7 +126,15 @@ def display_result(event):
     # Buttons TODO ajouter l'application des filtre des resultats
     button_result = tk.Button(filter_frame, text="Voir résultats", font=("Arial", 11),
                               command=lambda: create_table(results_frame, (entry_user.get(), entry_ex.get()),
-                                                           res_total_frame))
+                                                           res_total_frame, result_window))
+
+    button_add_result = tk.Button(filter_frame, text="Creer resultat", font=("Arial", 11),
+                                  command=lambda: admin_window(result_window, main_data=[results_frame,
+                                                                                         (entry_user.get(),
+                                                                                          entry_ex.get()),
+                                                                                         res_total_frame,
+                                                                                         result_window],
+                                                               table_type="Create"))
 
     # placement of filters
     filter_frame.grid(row=1, columnspan=3)
@@ -140,6 +151,7 @@ def display_result(event):
 
     entry_enddate.grid(row=0, column=7)
     button_result.grid(row=1, column=0, pady=5)
+    button_add_result.grid(row=1, column=1, pady=5)
 
     # Placement of results columns
     info_results_frame.grid(row=2, pady=10, columnspan=3)
@@ -153,10 +165,106 @@ def display_result(event):
     lbl_column_nbtrials.grid(row=0, column=5, padx=(0, 10))
     lbl_column_succes.grid(row=0, column=6, padx=(0, 10))
 
-    create_table(results_frame, ("", ""), res_total_frame)
+    create_table(results_frame, ("", ""), res_total_frame, result_window)
 
 
-def create_table(res_frame, variables, tot_frame):
+def admin_window(parent_frame, main_data, id=None, table_type="modify"):
+    new_result_window = tk.Toplevel(parent_frame)
+    new_result_window.title("New Result")
+    new_result_window.geometry("1000x150")
+
+    # Color definition
+    new_result_window.configure(bg="blue")
+    new_result_window.grid_columnconfigure((0, 1, 2), minsize=300, weight=1)
+
+    # Frames
+    main_frame = tk.Frame(new_result_window, bg="white", padx=10)
+    main_frame.pack()
+
+    # Widgets
+    items = ["Pseudo", "Date heure", "Temps", "Exercise", "nb OK", "nb Total"]
+    for item in range(len(items)):
+        info_item = tk.Label(main_frame, text=items[item])
+        info_item.grid(row=0, column=0 + item)
+
+    name_entry = Entry(main_frame)
+
+    date_entry = Entry(main_frame)
+
+    temps_entry = Entry(main_frame)
+
+    exercise_entry = Entry(main_frame)
+
+    ok_entry = Entry(main_frame)
+
+    total_entry = Entry(main_frame)
+
+    entries = [name_entry, date_entry, temps_entry, exercise_entry, ok_entry, total_entry]
+
+    for ins_entry in range(len(entries)):
+        entries[ins_entry].grid(row=1, column=ins_entry)
+
+    if table_type == "modify":
+        finish_button = Button(main_frame, text="Finish", command=lambda: modify_or_destroy(id, data=[name_entry.get(),
+                                                                                                      date_entry.get(),
+                                                                                                      temps_entry.get(),
+                                                                                                      exercise_entry.get(),
+                                                                                                      ok_entry.get(),
+                                                                                                      total_entry.get()],
+                                                                                            main_data=main_data))
+    else:
+        finish_button = Button(main_frame, text="Finish", command=lambda: create_result(data=[name_entry.get(),
+                                                                                              date_entry.get(),
+                                                                                              temps_entry.get(),
+                                                                                              exercise_entry.get(),
+                                                                                              ok_entry.get(),
+                                                                                              total_entry.get()],
+                                                                                        main_data=main_data))
+    finish_button.grid(row=2, column=4)
+
+
+def modify_or_destroy(id, main_data, data=None):
+    if data != None:
+        database.modify_result(data, id)
+    else:
+        database.destroy_result(id)
+    create_table(main_data[0], main_data[1], main_data[2], main_data[3])
+
+
+def create_result(main_data, data=None):
+    print(data)
+    # Get the pseudo from the entry widget
+    pseudo = data[0]
+
+    # Check if the pseudo is empty
+    if not pseudo.strip():
+        # Display an error message if the pseudo is empty
+        tk.messagebox.showerror("Error", "Please enter a non-empty pseudo.")
+        return  # Return without saving the game
+
+    open_dbconnection()
+    try:
+        minigame_id = database.get_exercice_id(data[3])[0]
+        close_dbconnection()
+        date_data = data[1].split(" ")
+        date_date_data = date_data[0].split("-")
+        date_time_data = date_data[1].split(":")
+        final_date = datetime.datetime(int(date_date_data[0]), int(date_date_data[1]), int(date_date_data[2]),
+                                       int(date_time_data[0]), int(date_time_data[1]), int(date_time_data[2]))
+        final_time = data[2]
+        okay_tries = int(data[4])
+        total_tries = int(data[5])
+        if okay_tries > total_tries:
+            okay_tries = 0 / 0
+    except:
+        tk.messagebox.showerror("Error", "Skill Issue")
+        return
+
+    database.insert_results(data[0], final_date, final_time, total_tries, okay_tries, minigame_id)
+    create_table(main_data[0], main_data[1], main_data[2], main_data[3])
+
+
+def create_table(res_frame, variables, tot_frame, main_window):
     # Results from Heidi sql to insert in results
     for widget in res_frame.winfo_children():
         widget.destroy()
@@ -166,20 +274,38 @@ def create_table(res_frame, variables, tot_frame):
     for student in dataset:
         for j in range(len(student)):
             for data in range(len(student[j])):
-                if data != 2 and data != 3:
-                    # Display results data and insert in frame
-                    e = tk.Label(res_frame, width=15, text=student[j][data], relief="solid", borderwidth=1)
-                elif data == 2:
-                    e = tk.Label(res_frame, width=15, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
-                elif data == 3:
-                    e = tk.Label(res_frame, width=15, text=get_exercice_name(student[j][data]), relief="solid", borderwidth=1)
-                e.grid(row=j + 1, column=i + data)
+                if data != student[-1]:
+                    if data != 2 and data != 3:
+                        # Display results data and insert in frame
+                        e = tk.Label(res_frame, width=15, text=student[j][data], relief="solid", borderwidth=1)
+                    elif data == 2:
+                        e = tk.Label(res_frame, width=15, text=f"{student[j][data]}s", relief="solid", borderwidth=1)
+                    elif data == 3:
+                        e = tk.Label(res_frame, width=15, text=get_exercice_name(student[j][data]), relief="solid",
+                                     borderwidth=1)
+                    e.grid(row=j + 1, column=i + data)
             try:
                 # Calculate and display the percentage
-                e = tk.Label(res_frame, width=15, text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 0)}%", relief="solid", borderwidth=1)
+                e = tk.Label(res_frame, width=15,
+                             text=f"{round(float(student[j][4]) * 100 / float(student[j][5]), 0)}%", relief="solid",
+                             borderwidth=1)
             except ZeroDivisionError:
                 e = tk.Label(res_frame, width=15, text="0%", relief="solid", borderwidth=1)
             e.grid(row=j + 1, column=i + 6)
+            destroy_button = tkinter.Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student[j][6],
+                                                                                                         main_data=[
+                                                                                                             res_frame,
+                                                                                                             variables,
+                                                                                                             tot_frame,
+                                                                                                             main_window]))
+            destroy_button.grid(row=j + 1, column=i + 7)
+            modify_button = tkinter.Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
+                                                                                                  id=student[j][6],
+                                                                                                  main_data=[res_frame,
+                                                                                                             variables,
+                                                                                                             tot_frame,
+                                                                                                             main_window]))
+            modify_button.grid(row=j + 1, column=i + 8)
         i += 1
     dataset = total_data_results(variables[0], variables[1])
     for info in range(len(dataset)):
@@ -192,6 +318,7 @@ def create_table(res_frame, variables, tot_frame):
     except ZeroDivisionError:
         e = tk.Label(tot_frame, width=15, text="0%", relief="solid", borderwidth=1)
     e.grid(row=0, column=4)
+
     close_dbconnection()
 
 
