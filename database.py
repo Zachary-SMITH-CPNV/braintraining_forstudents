@@ -133,9 +133,4 @@ def get_exercice_id(name):
     return result
 
 
-def delete_result():
-    cursor = db_connection.cursor()
-    query = "DELETE FROM results WHERE ID LIKE """
-    cursor.execute(query)
-    result = cursor.fetchone
-    return result
+

@@ -64,6 +64,21 @@ btn_finish.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
 btn_finish.bind("<Button-1>", quit)
 
 
+class destroy_button():
+    def __init__(self, res_frame, student_id, main_data, rowD, columnD):
+        self.destroy_button = tkinter.Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student_id,
+                                                                                                          main_data=main_data))
+        self.destroy_button.grid(row=rowD, column=columnD)
+
+
+class modify_button():
+    def __init__(self, res_frame, main_window, student_id, main_data, rowD, columnD):
+        self.modify_button = tkinter.Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
+                                                                                                   id=student_id,
+                                                                                                   main_data=main_data))
+        self.modify_button.grid(row=rowD, column=columnD)
+
+
 # Call display_results
 def display_result(event):
     # Create a new window for displaying results
@@ -257,7 +272,7 @@ def create_result(main_data, data=None):
         if okay_tries > total_tries:
             okay_tries = 0 / 0
     except:
-        tk.messagebox.showerror("Error", "Skill Issue")
+        tk.messagebox.showerror("Error", "Something is wrong with the data")
         return
 
     database.insert_results(data[0], final_date, final_time, total_tries, okay_tries, minigame_id)
@@ -292,20 +307,14 @@ def create_table(res_frame, variables, tot_frame, main_window):
             except ZeroDivisionError:
                 e = tk.Label(res_frame, width=15, text="0%", relief="solid", borderwidth=1)
             e.grid(row=j + 1, column=i + 6)
-            destroy_button = tkinter.Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student[j][6],
-                                                                                                         main_data=[
-                                                                                                             res_frame,
-                                                                                                             variables,
-                                                                                                             tot_frame,
-                                                                                                             main_window]))
-            destroy_button.grid(row=j + 1, column=i + 7)
-            modify_button = tkinter.Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
-                                                                                                  id=student[j][6],
-                                                                                                  main_data=[res_frame,
-                                                                                                             variables,
-                                                                                                             tot_frame,
-                                                                                                             main_window]))
-            modify_button.grid(row=j + 1, column=i + 8)
+            destroy_button_name = f"destroy_button_{j}"
+            modify_button_name = f"modify_button_{j}"
+            exec(
+                "%s = destroy_button(res_frame, student[j][6], [res_frame, variables, tot_frame, main_window], %d, %d)"
+                % (destroy_button_name, j + 1, i + 7))
+            exec(
+                "%s = modify_button(res_frame, main_window, student[j][6], [res_frame, variables, tot_frame, main_window], %d, %d)"
+                % (modify_button_name, j + 1, i + 8))
         i += 1
     dataset = total_data_results(variables[0], variables[1])
     for info in range(len(dataset)):
