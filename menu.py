@@ -97,7 +97,7 @@ def display_result(event):
     total_frame = tk.Frame(result_window, bg="white", padx=10)
     res_total_frame = tk.Frame(result_window, bg="white", padx=10)
 
-    # Totals labels TODO
+    # Totals labels
     lbl_trials = tk.Label(total_frame, text="NbLignes", bg="white", padx=20, font=("Arial", 10))
     lbl_time = tk.Label(total_frame, text="Temps trials", bg="white", padx=20, font=("Arial", 10))
     lbl_nbok = tk.Label(total_frame, text="Nb OK", bg="white", padx=20, font=("Arial", 10))
@@ -138,7 +138,7 @@ def display_result(event):
     entry_start_date = tk.Entry(filter_frame)
     entry_enddate = tk.Entry(filter_frame)
 
-    # Buttons TODO ajouter l'application des filtre des resultats
+    # Buttons
     button_result = tk.Button(filter_frame, text="Voir résultats", font=("Arial", 11),
                               command=lambda: create_table(results_frame, (entry_user.get(), entry_ex.get()),
                                                            res_total_frame, result_window))
