@@ -93,6 +93,7 @@ def insert_results(pseudo, date_hour, duration, nb_ok, nb_trials, minigame_id):
             print("Erreur MySQL inattendue :", err)
     close_dbconnection()
 
+
 def modify_result(dataset, id):
     open_dbconnection()
     try:
