@@ -111,11 +111,13 @@ def modify_result(dataset, id):
     cursor = db_connection.cursor()
     cursor.execute(query, (dataset[0], final_date, final_time, total_tries, okay_tries, exercise_id, id))
 
+
 def destroy_result(id):
     open_dbconnection()
     query = "DELETE FROM results WHERE id=%s"
     cursor = db_connection.cursor()
     cursor.execute(query, (id,))
+
 
 def get_exercice_name(id):
     cursor = db_connection.cursor()

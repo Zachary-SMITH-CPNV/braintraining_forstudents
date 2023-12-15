@@ -64,14 +64,14 @@ btn_finish.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
 btn_finish.bind("<Button-1>", quit)
 
 
-class destroy_button():
+class destroy_button:
     def __init__(self, res_frame, student_id, main_data, rowD, columnD):
         self.destroy_button = tkinter.Button(res_frame, text="Destroy", command=lambda: modify_or_destroy(student_id,
                                                                                                           main_data=main_data))
         self.destroy_button.grid(row=rowD, column=columnD)
 
 
-class modify_button():
+class modify_button:
     def __init__(self, res_frame, main_window, student_id, main_data, rowD, columnD):
         self.modify_button = tkinter.Button(res_frame, text="Modify", command=lambda: admin_window(main_window,
                                                                                                    id=student_id,
