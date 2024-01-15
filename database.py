@@ -152,3 +152,23 @@ def get_exercice_id(name):
 def error_box(msg, titl, win):
     messagebox.showerror(parent=win, title=titl,
                                     message=msg)
+
+
+# Check if the given credentials exist and coincide within the database.
+def check_credentials(data, login_window):
+    if data[0] == "" or data[1] == "":
+        error_box("Please, insert all credentials.", "Missing Credential(s)", login_window)
+        return False, None
+    cursor = db_connection.cursor()
+    query = "SELECT password FROM students WHERE nickname = %s"
+    cursor.execute(query, (data[0],))
+    result = cursor.fetchone()
+    if result != None:
+        if bcrypt.checkpw(data[1].encode('utf-8'), result[0].encode('utf-8')):
+            query = "SELECT privilege FROM students WHERE nickname = %s"
+            cursor.execute(query, (data[0],))
+            privilege_result = cursor.fetchone()[0]
+            return True, privilege_result
+        else:
+            error_box("Wrong Credentials.", "Error", login_window)
+            return False, None
