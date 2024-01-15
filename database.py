@@ -5,7 +5,8 @@
 # Dernière modif 05.12.2023
 #############################
 
-import mysql.connector, datetime
+from tkinter import messagebox
+import mysql.connector, datetime, bcrypt
 from geo01 import *
 from mysql.connector import errorcode
 
@@ -25,6 +26,17 @@ def close_dbconnection():
     close connection to the database
     """
     db_connection.close()
+
+
+def insert_new_user(args):
+    password = args[2].encode('utf-8')
+    hashed_password = bcrypt.hashpw(password, bcrypt.gensalt())
+    necessary_args = [args[0], hashed_password]
+    open_dbconnection()
+    cursor = db_connection.cursor()
+    query = "INSERT into users (username, password) VALUES (%s,%s)"
+    cursor.execute(query, necessary_args)
+    return
 
 
 def data_results(pseudo="", exercise=""):
@@ -136,4 +148,7 @@ def get_exercice_id(name):
     return result
 
 
-
+# Return an error box to the user.
+def error_box(msg, titl, win):
+    messagebox.showerror(parent=win, title=titl,
+                                    message=msg)
