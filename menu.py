@@ -337,6 +337,8 @@ def create_table(res_frame, variables, tot_frame, main_window):
 
 
 def check_information(data, window):
-    window.destroy()
-    open_window()
+    retrieval = database.check_credentials(data, window)
+    if retrieval[0]:
+        window.destroy()
+        open_window()
 

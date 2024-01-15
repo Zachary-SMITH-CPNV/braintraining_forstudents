@@ -69,7 +69,7 @@ def add_login_widgets(frames, window):
     change_button = tk.Button(frames[0], text="Register", command=lambda: change_window_utility(frames, window))
     change_button.grid(row=0, column=0)
 
-    Tk_Label(frames[1], "Nickname:", 0, 0)
+    Tk_Label(frames[1], "Username:", 0, 0)
     user_entry = tk.Entry(frames[1], width=40)
     user_entry.grid(row=0, column=1, padx=30)
 
@@ -86,11 +86,11 @@ def add_register_widgets(frames, window):
     change_button = tk.Button(frames[0], text="Log-In", command=lambda: change_window_utility(frames, window))
     change_button.grid(row=0, column=0)
 
-    Tk_Label(frames[1], "E-mail:", 0, 0)
+    Tk_Label(frames[1], "Username:", 0, 0)
     email_entry = tk.Entry(frames[1], width=35)
     email_entry.grid(row=0, column=1, padx=30)
 
-    Tk_Label(frames[1], "Nickname:", 1, 0)
+    Tk_Label(frames[1], "Prénom et Nom", 1, 0)
     user_entry = tk.Entry(frames[1], width=35)
     user_entry.grid(row=1, column=1, padx=30)
 

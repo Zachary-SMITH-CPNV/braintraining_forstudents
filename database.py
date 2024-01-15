@@ -160,15 +160,15 @@ def check_credentials(data, login_window):
         error_box("Please, insert all credentials.", "Missing Credential(s)", login_window)
         return False, None
     cursor = db_connection.cursor()
-    query = "SELECT password FROM students WHERE nickname = %s"
+    query = "SELECT password FROM users WHERE username = %s"
     cursor.execute(query, (data[0],))
     result = cursor.fetchone()
     if result != None:
         if bcrypt.checkpw(data[1].encode('utf-8'), result[0].encode('utf-8')):
-            query = "SELECT privilege FROM students WHERE nickname = %s"
-            cursor.execute(query, (data[0],))
-            privilege_result = cursor.fetchone()[0]
-            return True, privilege_result
+            return True, None
         else:
             error_box("Wrong Credentials.", "Error", login_window)
             return False, None
+    else:
+        error_box("This person doesn't exist", "Error", login_window)
+        return False, None
