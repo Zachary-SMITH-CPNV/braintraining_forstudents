@@ -12,6 +12,7 @@ import info02
 import info05
 from tkinter import *
 from database import *
+from sign_in import *
 
 # Exercises array
 a_exercise = ["geo01", "info02", "info05"]
@@ -65,8 +66,18 @@ def open_window():
     btn_finish.grid(row=2 + 2 * len(a_exercise) // 3, column=1)
     btn_finish.bind("<Button-1>", quit)
 
+    btn_log_out = tk.Button(window, text="Log Out", font=("Arial", 15))
+    btn_log_out.grid(row=3 + 2 * len(a_exercise) // 3, column=1)
+    btn_log_out.bind("<Button-1>", lambda event: logout(window))
+
     # Main loop
     window.mainloop()
+
+
+def logout(window):
+    from sign_in import open_window
+    window.destroy()
+    open_window()
 
 
 class destroy_button:
