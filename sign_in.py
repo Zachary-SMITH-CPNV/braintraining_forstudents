@@ -1,4 +1,4 @@
-#############################
+##############################
 # Sign in window
 # Zachary Smith
 # PROJET DBPY

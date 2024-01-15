@@ -3,7 +3,7 @@
 # Zachary Smith
 # PROJET DBPY
 # Dernière modif 05.12.2023
-#############################
+##############################
 
 from tkinter import messagebox
 import mysql.connector, datetime, bcrypt
