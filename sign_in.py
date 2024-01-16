@@ -12,11 +12,13 @@ import database as DB
 login_geometry = "450x120"
 register_geometry = "450x170"
 
+
 class Tk_Label:
     def __init__(self, origin_frame, text_info, gRow, gCol, gPadx=10):
         # Utility class for creating labeled widgets
         label = tk.Label(origin_frame, text=text_info, font=8)
         label.grid(row=gRow, column=gCol, padx=gPadx)
+
 
 def open_window():
     # Function to open the main window
@@ -29,6 +31,7 @@ def open_window():
     add_login_widgets([title_frame, main_frame, last_frame], window)
     window.configure(bg="light blue")
     window.mainloop()
+
 
 def add_frames(window):
     # Function to create and place frames in the window
@@ -46,6 +49,7 @@ def add_frames(window):
 
     return title_frame, main_frame, last_frame
 
+
 def change_window_utility(frames, window):
     # Function to change between Log-In and Register frames
     for window_frame in frames:
@@ -62,6 +66,7 @@ def change_window_utility(frames, window):
         window.title("Login")
         add_login_widgets(frames, window)
         window.geometry(login_geometry)
+
 
 def add_login_widgets(frames, window):
     # Function to add Log-In widgets to the frames
@@ -82,6 +87,7 @@ def add_login_widgets(frames, window):
     login_button = tk.Button(frames[2], text="Login", command=lambda: login([user_entry.get(), password_entry.get()], window))
     login_button.grid(row=0, column=0)
     login_button.configure(borderwidth="3px")
+
 
 def add_register_widgets(frames, window):
     # Function to add Register widgets to the frames
@@ -113,10 +119,12 @@ def add_register_widgets(frames, window):
                                                                                     [password_entry.get(), confirm_password_entry.get()], window))
     register_button.grid(row=0, column=0)
 
+
 def login(data, window):
     # Function to handle log-in functionality
     import menu
     menu.check_information(data, window)
+
 
 def register(data, passwords, window):
     # Function to handle registration functionality
@@ -125,6 +133,7 @@ def register(data, passwords, window):
             DB.insert_new_user(data)
     else:
         DB.error_box("Invalid password.", "Wrong Credentials", window)
+
 
 if __name__ == "__main__":
     open_window()
