@@ -10,20 +10,20 @@ SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,N
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-DROP SCHEMA IF EXISTS `mydb` ;
+DROP SCHEMA IF EXISTS `projet_dbpy` ;
 
 -- -----------------------------------------------------
 -- Schema mydb
 -- -----------------------------------------------------
-CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
-USE `mydb` ;
+CREATE SCHEMA IF NOT EXISTS `projet_dbpy` DEFAULT CHARACTER SET utf8 ;
+USE `projet_dbpy` ;
 
 -- -----------------------------------------------------
--- Table `mydb`.`MiniGame`
+-- Table `projet_dbpy`.`MiniGame`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`MiniGame` ;
+DROP TABLE IF EXISTS `projet_dbpy`.`MiniGame` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`MiniGame` (
+CREATE TABLE IF NOT EXISTS `projet_dbpy`.`MiniGame` (
   `id` INT NOT NULL AUTO_INCREMENT,
   `MiniGame_name` VARCHAR(5) NOT NULL,
   PRIMARY KEY (`id`))
@@ -31,14 +31,14 @@ ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
--- Table `mydb`.`results`
+-- Table `projet_dbpy`.`results`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `mydb`.`results` ;
+DROP TABLE IF EXISTS `projet_dbpy`.`results` ;
 
-CREATE TABLE IF NOT EXISTS `mydb`.`results` (
+CREATE TABLE IF NOT EXISTS `projet_dbpy`.`results` (
   `Id` INT NOT NULL AUTO_INCREMENT,
   `pseudo` VARCHAR(20) NOT NULL,
-  `date et heure` DATETIME NOT NULL,
+  `date_et_heure` DATETIME NOT NULL,
   `temp` DECIMAL NOT NULL,
   `nb_ok` DECIMAL(3) NOT NULL,
   `nb_trials` DECIMAL(3) NOT NULL,
@@ -47,11 +47,44 @@ CREATE TABLE IF NOT EXISTS `mydb`.`results` (
   INDEX `fk_results_MiniGame_idx` (`MiniGame_id` ASC) VISIBLE,
   CONSTRAINT `fk_results_MiniGame`
     FOREIGN KEY (`MiniGame_id`)
-    REFERENCES `mydb`.`MiniGame` (`id`)
+    REFERENCES `projet_dbpy`.`MiniGame` (`id`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = INNODB;
 
+
+-- -----------------------------------------------------
+-- Table `projet_dbpy`.`users`
+-- -----------------------------------------------------
+CREATE TABLE `users` (
+	`id` INT NOT NULL AUTO_INCREMENT,
+	`username` VARCHAR(15) NULL DEFAULT NULL,
+	`password` VARCHAR(100) NULL DEFAULT NULL,
+	PRIMARY KEY (`id`)
+)
+COLLATE='utf8mb3_general_ci'
+;
+SELECT `DEFAULT_COLLATION_NAME` FROM `information_schema`.`SCHEMATA` WHERE `SCHEMA_NAME`='projet_dbpy';
+SHOW TABLE STATUS FROM `projet_dbpy`;
+SHOW FUNCTION STATUS WHERE `Db`='projet_dbpy';
+SHOW PROCEDURE STATUS WHERE `Db`='projet_dbpy';
+SHOW TRIGGERS FROM `projet_dbpy`;
+SELECT *, EVENT_SCHEMA AS `Db`, EVENT_NAME AS `Name` FROM information_schema.`EVENTS` WHERE `EVENT_SCHEMA`='projet_dbpy';
+SELECT * FROM `information_schema`.`COLUMNS` WHERE TABLE_SCHEMA='projet_dbpy' AND TABLE_NAME='users' ORDER BY ORDINAL_POSITION;
+SHOW INDEXES FROM `users` FROM `projet_dbpy`;
+SELECT * FROM information_schema.REFERENTIAL_CONSTRAINTS WHERE   CONSTRAINT_SCHEMA='projet_dbpy'   AND TABLE_NAME='users'   AND REFERENCED_TABLE_NAME IS NOT NULL;
+SELECT * FROM information_schema.KEY_COLUMN_USAGE WHERE   TABLE_SCHEMA='projet_dbpy'   AND TABLE_NAME='users'   AND REFERENCED_TABLE_NAME IS NOT NULL;
+SHOW CREATE TABLE `projet_dbpy`.`users`;
+SELECT tc.CONSTRAINT_NAME, cc.CHECK_CLAUSE FROM `information_schema`.`CHECK_CONSTRAINTS` AS cc, `information_schema`.`TABLE_CONSTRAINTS` AS tc WHERE tc.CONSTRAINT_SCHEMA='projet_dbpy' AND tc.TABLE_NAME='users' AND tc.CONSTRAINT_TYPE='CHECK' AND tc.CONSTRAINT_SCHEMA=cc.CONSTRAINT_SCHEMA AND tc.CONSTRAINT_NAME=cc.CONSTRAINT_NAME;
+/* Ouverture de la session « import_csv » */
+SHOW CREATE TABLE `projet_dbpy`.`users`;
+
+INSERT INTO `projet_dbpy`.`minigame` (`id`, `MiniGame_name`) VALUES (1, 'GEO1');
+SELECT `id`, `MiniGame_name` FROM `projet_dbpy`.`minigame` WHERE  `id`=1;
+INSERT INTO `projet_dbpy`.`minigame` (`id`, `MiniGame_name`) VALUES (2, 'INFO2');
+SELECT `id`, `MiniGame_name` FROM `projet_dbpy`.`minigame` WHERE  `id`=2;
+INSERT INTO `projet_dbpy`.`minigame` (`id`, `MiniGame_name`) VALUES (3, 'INFO5');
+SELECT `id`, `MiniGame_name` FROM `projet_dbpy`.`minigame` WHERE  `id`=3;
 
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
