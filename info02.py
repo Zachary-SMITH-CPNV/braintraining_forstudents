@@ -3,7 +3,7 @@
 # Zachary Smith
 # PROJET DBPY
 # Dernière modif 05.12.2023
-#############################
+##############################
 
 import tkinter as tk
 import random

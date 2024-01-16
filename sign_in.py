@@ -3,7 +3,7 @@
 # Zachary Smith
 # PROJET DBPY
 # Dernière modif 16.01.2024
-##############################
+###############################
 
 import tkinter as tk
 import database as DB
