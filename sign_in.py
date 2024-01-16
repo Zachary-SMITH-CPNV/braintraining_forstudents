@@ -51,7 +51,7 @@ def add_frames(window):
 
 
 def change_window_utility(frames, window):
-    # Function to change between Log-In and Register frames
+    # Function to change between Login and Register frames
     for window_frame in frames:
         for widget in window_frame.winfo_children():
             widget.destroy()
@@ -69,7 +69,7 @@ def change_window_utility(frames, window):
 
 
 def add_login_widgets(frames, window):
-    # Function to add Log-In widgets to the frames
+    # Function to add Login widgets to the frames
     change_button = tk.Button(frames[0], text="Register", command=lambda: change_window_utility(frames, window))
     change_button.grid(row=0, column=0)
     change_button.configure(borderwidth="3px")
@@ -121,7 +121,7 @@ def add_register_widgets(frames, window):
 
 
 def login(data, window):
-    # Function to handle log-in functionality
+    # Function to handle login functionality
     import menu
     menu.check_information(data, window)
 
