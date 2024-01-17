@@ -10,8 +10,9 @@ Version : \
 
 ### Comment configurer ma machine pour que le programme fonctionne? ###
 
-Il s'agit d'une application en python réalisée avec tkinter pour la partie graphique. Aucune configuration spécifique n'est requise.\
-Il conviendra cependant d'installer le package mysql-connector-python pour l'interaction avec la BD.
+Il faut d'abord lancer le dossier "script_bd.sql" pour créer la base de donnée, installer les fichiers pythons, changer les données de connection pour accéder à heidi dans le fichiers "database.py",
+Une fois que cela est fait il faut lancer le ficher "sign_in.py" et il faudra presser sur le bouton "REGISTER" pour créer un utilisateur, puis ensuite on pourra se connceter avec le username et le mot de passe que nous avons mis.
+
 
 ### A qui puis-je m'adresser? ###
 
