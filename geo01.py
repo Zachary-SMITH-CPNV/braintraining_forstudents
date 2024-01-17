@@ -1,7 +1,7 @@
 # Training (GEO01)
 # JCY oct 23
 # PRO DB PY
-#
+
 
 import tkinter as tk
 import random

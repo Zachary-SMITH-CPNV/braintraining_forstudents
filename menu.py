@@ -2,7 +2,7 @@
 # Training (Menu)
 # JCY oct 23
 # PRO DB PY
-##############################
+###############################
 
 import tkinter
 import tkinter as tk

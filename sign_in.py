@@ -15,7 +15,7 @@ register_geometry = "450x170"
 
 class Tk_Label:
     def __init__(self, origin_frame, text_info, gRow, gCol, gPadx=10):
-        # Utility class for creating labeled widgets
+        # Utility class for creating labeled widgets helped by brad
         label = tk.Label(origin_frame, text=text_info, font=8)
         label.grid(row=gRow, column=gCol, padx=gPadx)
 
